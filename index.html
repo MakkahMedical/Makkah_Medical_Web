@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makkah Medical | متجر مكة للمستلزمات الطبية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="https://res.cloudinary.com/dd5j2lbom/image/upload/v1769370782/MakkahMedical_ylehpx.jpg" alt="Logo">
+            <div class="logo-text">Makkah<span id="span"> Medical</span></div>
+        </div>
+        <nav style="display: flex; gap: 10px;">
+            <button id="about-btn" class="btn-icon" title="عن المحل">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
+            <button id="theme-toggle" class="btn-icon">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <section class="controls">
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="ابحث عن منتج...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="filter-box">
+            <button class="filter-btn active" data-category="all">الكل</button>
+            <button class="filter-btn" data-category="devices">أجهزة</button>
+            <button class="filter-btn" data-category="supplies">مستلزمات</button>
+            <button class="filter-btn" data-category="masks">وقاية</button>
+        </div>
+    </section>
+
+    <main id="products-container" class="products-grid">
+        <div class="loading-text">جاري تحميل المنتجات...</div>
+    </main>
+
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">×</span>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="about-modal" class="modal">
+        <div class="modal-content about-content">
+            <span class="close-about-btn">×</span>
+            <div class="about-body">
+                <h2>Mekkah Medical</h2>
+                <p>مستلزمات طبية - الإسكندرية</p>
+                <hr>
+                <div class="info-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>الإسكندرية، مصر</p>
+                </div>
+                
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.6950033196026!2d29.901955699999995!3d31.201469!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5c32a3e9ac4d9%3A0x95110d48bba37297!2z2YXZg9ipINmF2YrYr9mK2YPYp9mEIC0gTWFra2FoIE1lZGljYWw!5e0!3m2!1sen!2seg!4v1769380334281!5m2!1sen!2seg" 
+                        width="100%" height="100%" style="border:0;" 
+                        allowfullscreen="" loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+                <div class="social-links">
+                    <a href="tel:+201278535272" class="social-btn phone">
+                        <i class="fa-solid fa-phone"></i> اتصل بنا
+                    </a>
+                    <a href="https://wa.me/+201278535272" target="_blank" class="social-btn whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> واتساب
+                    </a>
+                </div>
+                
+                <div class="social-links" style="margin-top: 10px;">
+                    <a href="https://www.facebook.com/profile.php?id=61586511999035" target="_blank" class="social-btn facebook">
+                        <i class="fa-brands fa-facebook-f"></i> فيسبوك
+                    </a>
+                    <a href="https://ipn.eg/C/Q/ahmedelhadary167/instapay?ISIGN=23052603MEUCIE5Y7DqTGJbwL2NisGvQgbgWfuHtsY84sjVaJ+f4SB5oAiEAkuANPzheO6Xnv4AUEcCZc83FbOxaHUd3bC5VX2dGgGw=" target="_blank" class="social-btn instapay">
+                        <i class="fa-solid fa-money-bill-transfer"></i> إنستا باي
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
