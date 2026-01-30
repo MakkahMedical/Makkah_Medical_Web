@@ -303,7 +303,9 @@ function renderCart() {
     const container = document.getElementById('cart-items-container');
     let total = 0;
     container.innerHTML = cart.map((item, index) => {
+        // Calculate item total
         total += parseFloat(item.price.replace(/[^\d.]/g, '')) * item.qty;
+        
         return `
             <div class="cart-item">
                 <img src="${item.images[0]}">
@@ -316,7 +318,9 @@ function renderCart() {
                 </div>
             </div>`;
     }).join('');
-    document.getElementById('cart-total').innerText = total + " ج.م";
+
+    // 👇 This is the change: .toFixed(2) ensures 2 decimal points (e.g., 1299.99)
+    document.getElementById('cart-total').innerText = total.toFixed(2) + " ج.م";
 }
 
 window.updateQty = (index, change) => {
