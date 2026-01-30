@@ -16,8 +16,13 @@
             <div class="logo-text">Makkah<span id="span"> Medical</span></div>
         </div>
         <nav style="display: flex; gap: 10px;">
+            <button id="cart-btn" class="btn-icon" style="position: relative; width: auto; padding: 0 12px;">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" style="position: absolute; top: -5px; right: -5px; background: #ff4757; color: white; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%;">0</span>
+            </button>
             <button id="about-btn" class="btn-icon" title="عن المحل">
-                <i class="fa-solid fa-circle-info"></i>
+                <p id="callus"> تواصل معنا </p>
+                             
             </button>
             <button id="theme-toggle" class="btn-icon">
                 <i class="fa-solid fa-moon"></i>
@@ -25,21 +30,37 @@
         </nav>
     </header>
 
+
+
     <section class="controls">
-        <div class="search-box">
+    <div style="display: flex; gap: 10px; width: 100%; max-width: 500px;">
+        <div class="search-box" style="flex-grow: 1;">
             <input type="text" id="search-input" placeholder="ابحث عن منتج...">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
-        <div class="filter-box">
+        <button id="sort-btn" class="btn-icon" title="ترتيب" style="border-radius: 12px; width: 45px; height: 45px;">
+            <i class="fa-solid fa-sort"></i>
+        </button>
+    </div>
+
+    <div id="sort-modal" class="modal">
+        <div class="modal-content" style="margin-top: 20vh; max-width: 300px; padding: 25px;">
+            <span class="close-sort-btn" style="position: absolute; left: 10px; top: 10px; cursor: pointer; font-size: 1.5rem;">&times;</span>
+            <h3 style="margin-bottom: 20px; text-align: center;">ترتيب حسب السعر</h3>
+            <button class="filter-btn sort-option" data-sort="high" style="width: 100%; margin-bottom: 10px;">من الأعلى إلى الأقل</button>
+            <button class="filter-btn sort-option" data-sort="low" style="width: 100%;">من الأقل إلى الأعلى</button>
+        </div>
+    </div>
+    
+    <div class="filter-box">
             <button class="filter-btn active" data-category="all">الكل</button>
-            <button class="filter-btn" data-category="devices">أجهزة</button>
+            <button class="filter-btn" data-category="devices">أجهزة </button>
             <button class="filter-btn" data-category="supports">أربطة</button>
             <button class="filter-btn" data-category="supplies">مستلزمات</button>
             <button class="filter-btn" data-category="protection">وقاية</button>
             <button class="filter-btn" data-category="diapers">حفاضات</button>
         </div>
-    </section>
-
+</section>
     <main id="products-container" class="products-grid">
         <div class="loading-text">جاري تحميل المنتجات...</div>
     </main>
@@ -92,6 +113,34 @@
             </div>
         </div>
     </div>
+    <div id="cart-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-cart-btn">×</span>
+        <h2 style="text-align: center;">عربة التسوق</h2>
+        <div id="cart-items-container"></div>
+        <div style="margin-top: 20px;">
+            <input type="text" id="cust-name" placeholder="الاسم الكامل" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+            <input type="text" id="cust-phone" placeholder="رقم الموبايل" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+            <input type="text" id="cust-city" placeholder="المدينة"style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+            <textarea id="cust-address" placeholder="العنوان بالتفصيل" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;"></textarea>
+            <div style="font-weight:bold; margin-bottom:15px;">
+    <div style="display:flex; justify-content:space-between; margin-bottom: 10px; font-size: 1.1rem;">
+        <span>الإجمالي:</span> 
+        <span id="cart-total" style="color: var(--primary-color);">0 ج.م</span>
+    </div>
+    
+    <div style="display:flex; justify-content:space-between; font-size: 0.9rem; color: #666;">
+        <span>الدليفري:</span> 
+        <span id="cart-delivery">يحدد بعد التأكيد</span>
+    </div>
+</div>
+            <button id="checkout-messenger" style="width:100%; padding:12px; background:#0084ff; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">
+                إتمام الطلب عبر ماسنجر
+            </button>
+        </div>
+    </div>
+</div>
+<div id="toast-box"></div>
 
     <script src="script.js"></script>
 </body>

@@ -5,6 +5,7 @@
     --primary-color: #00b4d8;
     --secondary-color: #e0f7fa;
     --shadow: 0 4px 15px rgba(0,0,0,0.08);
+    
 }
 
 [data-theme="dark"] {
@@ -24,13 +25,15 @@ header {
     padding: 12px 5%; background: var(--card-bg); box-shadow: var(--shadow);
     position: sticky; top: 0; z-index: 1000;
 }
-.logo { display: flex; align-items: center; gap: 10px; font-weight: bold; color: var(--primary-color); }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: bold; color: var(--primary-color); user-select: none;
+ }
 .logo img { height: 40px; border-radius: 50%; border: 2px solid var(--primary-color); }
 
 .btn-icon {
     background: var(--secondary-color); border: none; width: 40px; height: 40px;
     border-radius: 50%; cursor: pointer; color: var(--primary-color);
     display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    user-select: none;
 }
 
 .controls { padding: 20px 5%; display: flex; flex-direction: column; gap: 15px; align-items: center; }
@@ -41,10 +44,22 @@ header {
 }
 .search-box i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary-color); }
 
-.filter-box { display: flex; gap: 10px; overflow-x: auto; width: 100%; padding: 5px; scrollbar-width: none; justify-content: center; }
+
+.filter-box { 
+    display: flex; 
+    gap: 10px; 
+    overflow-x: auto; 
+    width: 100%; 
+    padding: 10px 5px; 
+    scrollbar-width: none; 
+    justify-content: flex-start; 
+    flex-direction: row; 
+}
 .filter-btn {
     padding: 8px 20px; border: none; border-radius: 25px; background: var(--card-bg);
     color: var(--text-color); cursor: pointer; box-shadow: var(--shadow); white-space: nowrap;
+        user-select: none;
+
 }
 .filter-btn.active { background: var(--primary-color); color: white; }
 
@@ -53,7 +68,7 @@ header {
     gap: 15px; padding: 10px 5% 50px;
 }
 
-/* كروت المنتجات الموحدة */
+
 .product-card {
     background: var(--card-bg); border-radius: 18px; overflow: hidden;
     box-shadow: var(--shadow); transition: 0.3s; cursor: pointer;
@@ -72,49 +87,48 @@ header {
     display: flex; align-items: center; justify-content: center;
 }
 
-/* المودال وزر الإغلاق المطور */
+
 .modal {
     display: none; position: fixed; z-index: 2000; left: 0; top: 0;
     width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
 }
-/* إخفاء شريط التمرير مع الحفاظ على التمرير */
+
 .modal-content {
     background: var(--card-bg);
     margin: 5vh auto;
-    padding: 45px 20px 25px; /* مساحة علوية للـ X */
+    padding: 45px 20px 25px; 
     width: 90%;
     max-width: 450px;
     border-radius: 25px;
     position: relative;
     max-height: 85vh;
     overflow-y: auto;
-    scrollbar-width: none; /* لمتصفح Firefox */
-    -ms-overflow-style: none; /* لمتصفح Edge */
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
 }
 
 .modal-content::-webkit-scrollbar {
-    display: none; /* لمتصفحات Chrome و Safari */
+    display: none; 
 }
 
-/* ضبط حاوية الخريطة لضمان عدم اختفائها */
+
 .map-container {
     width: 100%;
-    height: 250px; /* ارتفاع ثابت للخريطة */
+    height: 250px; 
     border-radius: 15px;
     overflow: hidden;
     margin: 20px 0;
     border: 1px solid var(--secondary-color);
-    background: #eee; /* لون خلفية مؤقت حتى تحمل الخريطة */
+    background: #eee;
 }
 
 
 
-/* تنسيق إضافي لجسد المودال لضمان تباعد العناصر */
+
 .modal-body, .about-body {
     padding-bottom: 20px;
 }
 
-/* تحسين شكل شريط التمرير (إختياري) */
 .modal-content::-webkit-scrollbar {
     width: none;
 }
@@ -123,10 +137,10 @@ header {
     border-radius: 10px;
 }
 
-.close-btn, .close-about-btn {
+.close-btn, .close-about-btn, .close-cart-btn {
     position: absolute; 
-    right: 10px; /* تم تحريكها للداخل قليلاً لضمان ظهورها كاملة */
-    top: 10px;   /* تم تحريكها للأسفل قليلاً */
+    right: 10px; 
+    top: 10px;   
     background: var(--primary-color);
     color: white; 
     width: 35px; 
@@ -139,8 +153,53 @@ header {
     cursor: pointer; 
     border: 2px solid white; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    z-index: 2100; /* يجب أن يكون أعلى من z-index المودال */
+    z-index: 2100; 
+        user-select: none;
+
 }
+#about-btn{
+    background-color: #00b4d8;
+    color: white;
+    font-weight: bold;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    width: auto;
+        user-select: none;
+
+}
+#call_icon{
+
+
+    background-color: white;
+    color: #00b4d8;
+    border-radius: 100%;
+    padding: 2px;
+    margin-left: 6px;
+        user-select: none;
+
+}
+#callus {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    font-size: 0.7rem !important; 
+    color: white; 
+    align-items: center;
+    align-content: center;
+    display: flex;
+    white-space: nowrap; 
+        user-select: none;
+
+}
+.cart-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #eee;     user-select: none;}
+.cart-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px;     user-select: none;}
+.cart-controls { display: flex; align-items: center; gap: 8px; margin-right: auto; }
+.qty-btn { width: 25px; height: 25px; background: var(--secondary-color); border: none; border-radius: 4px; cursor: pointer; }
+.add-to-cart-btn { background: var(--primary-color); color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; margin-top: 10px; cursor: pointer; font-weight: bold; }
+
 .slider-container { position: relative; width: 100%; height: 240px; background: white; border-radius: 15px; overflow: hidden; }
 .slider-image { width: 100%; height: 100%; object-fit: contain; display: none; }
 .slider-image.active { display: block; animation: fadeIn 0.5s; }
@@ -157,7 +216,6 @@ header {
     color: black;
 }
 
-/* تنسيقات About Us */
 .about-content { text-align: center; }
 .about-body hr { margin: 15px 0; border: none; border-top: 1px solid var(--secondary-color); }
 .info-item { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 0; }
@@ -178,3 +236,48 @@ header {
 
 
 
+
+#toast-box {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.toast {
+    background: #333; 
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    min-width: 250px;
+    justify-content: center;
+    border-bottom: 3px solid var(--primary-color); 
+    animation: slideUp 0.4s ease, fadeOut 0.5s ease 2.5s forwards; 
+}
+
+
+.toast i {
+    color: #2ecc71; 
+    font-size: 1.2rem;
+}
+
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+}

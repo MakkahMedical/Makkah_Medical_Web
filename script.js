@@ -10,7 +10,6 @@ const modal = document.getElementById('product-modal');
 const aboutBtn = document.getElementById('about-btn');
 const aboutModal = document.getElementById('about-modal');
 
-// --- 1. الوضع الليلي (Dark Mode) ---
 function initTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
@@ -37,7 +36,6 @@ if (themeToggle) {
     };
 }
 
-// --- 2. جلب البيانات من الشيت ---
 async function loadData() {
     try {
         const response = await fetch(SHEET_URL);
@@ -90,7 +88,6 @@ function getCategoryName(cat) {
     return names[cat] || cat;
 }
 
-// --- 3. المودال والسلايدر (منتجات) ---
 function openModal(id) {
     const product = allProducts.find(p => p.id == id);
     if (!product) return;
@@ -112,7 +109,11 @@ function openModal(id) {
         <div class="modal-text-content">
             <h2>${product.name}</h2>
             <p style="margin:10px 0; color:#666;">${product.desc}</p>
-            <h3 style="color:var(--primary-color);">${product.price} جنيه مصري</h3>
+            <h3 style="color:var(--primary-color); font-weight:bold;">${product.price} جنيه مصري</h3>
+            
+            <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">
+                <i class="fa-solid fa-cart-plus"></i> إضافة إلى العربة
+            </button>
         </div>
     `;
     modal.style.display = "block";
@@ -140,7 +141,6 @@ window.goToSlide = function(index) {
     if(dots.length) dots[currentImageIndex].classList.add('active');
 };
 
-// --- 4. التحكم في "حولنا" (About Us) وأزرار الإغلاق ---
 if (aboutBtn) {
     aboutBtn.onclick = () => {
         if (aboutModal) {
@@ -150,7 +150,6 @@ if (aboutBtn) {
     };
 }
 
-// تأكد من استخدام الكلاس الصحيح (close-btn) أو (close-about-btn) بناءً على الـ HTML الخاص بك
 const closeAboutBtn = document.querySelector('.close-about-btn');
 if (closeAboutBtn) {
     closeAboutBtn.onclick = () => {
@@ -178,12 +177,17 @@ window.onclick = (e) => {
     }
 };
 
-// --- 5. الفلترة والبحث ---
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.onclick = () => {
         const activeBtn = document.querySelector('.filter-btn.active');
         if (activeBtn) activeBtn.classList.remove('active');
         btn.classList.add('active');
+
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.value = ''; 
+        }
+
         const cat = btn.dataset.category;
         displayProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat));
     };
@@ -197,6 +201,192 @@ if (searchInput) {
     };
 }
 
-// تشغيل التهيئة
+
+const sortBtn = document.getElementById('sort-btn');
+const sortModal = document.getElementById('sort-modal');
+const closeSortBtn = document.querySelector('.close-sort-btn');
+
+
+if (sortBtn) {
+    sortBtn.onclick = () => {
+        sortModal.style.display = "block";
+    };
+}
+if (closeSortBtn) {
+    closeSortBtn.onclick = () => {
+        sortModal.style.display = "none";
+    };
+}
+
+function parsePrice(priceString) {
+    const cleaned = priceString.toString().replace(/[^\d.]/g, '');
+    return parseFloat(cleaned) || 0;
+}
+
+
+
+document.querySelectorAll('.sort-option').forEach(btn => {
+    btn.onclick = () => {
+        const sortType = btn.dataset.sort;
+
+
+        const activeBtn = document.querySelector('.filter-btn.active');
+        const currentCategory = activeBtn ? activeBtn.dataset.category : 'all';
+
+
+        const searchInput = document.getElementById('search-input');
+        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+
+        let productsToDisplay = allProducts.filter(p => {
+
+            const matchesCategory = (currentCategory === 'all') || (p.category === currentCategory);
+
+            const matchesSearch = p.name.toLowerCase().includes(searchTerm);
+            
+
+            return matchesCategory && matchesSearch;
+        });
+
+
+        if (sortType === 'high') {
+   
+            productsToDisplay.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
+        } else if (sortType === 'low') {
+
+            productsToDisplay.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+        }
+
+        displayProducts(productsToDisplay);
+        sortModal.style.display = "none";
+        document.body.style.overflow = "auto";
+    };
+});
+
+
+window.onclick = (e) => {
+    if (e.target == modal) modal.style.display = "none";
+    if (e.target == aboutModal) aboutModal.style.display = "none";
+    if (e.target == sortModal) sortModal.style.display = "none"; 
+    if (e.target == modal || e.target == aboutModal || e.target == sortModal) {
+        document.body.style.overflow = "auto";
+    }
+};
+
+let cart = JSON.parse(localStorage.getItem('makkah_cart')) || [];
+
+function updateCartBadge() {
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById('cart-count').innerText = count;
+    localStorage.setItem('makkah_cart', JSON.stringify(cart));
+}
+
+
+
+window.addToCart = (id) => {
+    const p = allProducts.find(x => x.id == id);
+    const existing = cart.find(x => x.id == id);
+    
+    if(existing) { 
+        existing.qty++; 
+    } else { 
+        cart.push({...p, qty: 1}); 
+    }
+    
+    updateCartBadge();
+
+    showToast('تمت الإضافة للعربة بنجاح'); 
+};
+function renderCart() {
+    const container = document.getElementById('cart-items-container');
+    let total = 0;
+    container.innerHTML = cart.map((item, index) => {
+        total += parseFloat(item.price.replace(/[^\d.]/g, '')) * item.qty;
+        return `
+            <div class="cart-item">
+                <img src="${item.images[0]}">
+                <div><h4 style="font-size:0.8rem">${item.name}</h4><small>${item.price}</small></div>
+                <div class="cart-controls">
+                    <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+                    <span>${item.qty}</span>
+                    <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+                    <i class="fa-solid fa-trash" style="color:#ff4757; cursor:pointer;" onclick="removeItem(${index})"></i>
+                </div>
+            </div>`;
+    }).join('');
+    document.getElementById('cart-total').innerText = total + " ج.م";
+}
+
+window.updateQty = (index, change) => {
+    cart[index].qty += change;
+    if(cart[index].qty < 1) cart[index].qty = 1;
+    updateCartBadge(); renderCart();
+};
+
+window.removeItem = (index) => {
+    cart.splice(index, 1);
+    updateCartBadge(); renderCart();
+};
+
+document.getElementById('checkout-messenger').onclick = () => {
+    const name = document.getElementById('cust-name').value.trim();
+    const phone = document.getElementById('cust-phone').value.trim();
+    const city = document.getElementById('cust-city').value.trim(); 
+    const address = document.getElementById('cust-address').value.trim();
+
+    if(cart.length === 0) return showToast('العربة فارغة 🛒');
+
+    if(!name || !phone || !city || !address) {
+        return showToast('يرجى ملء جميع البيانات: الاسم، الموبايل، المدينة، والعنوان ⚠️');
+    }
+
+    const phoneRegex = /^01[0125][0-9]{8}$/;
+    if (!phoneRegex.test(phone)) {
+        return showToast('رقم الموبايل غير صحيح! يجب أن يكون 11 رقم ويبدأ بـ 01 ❌');
+    }
+
+    let msg = `مكة ميديكال للمستلزمات الطبية\n`;
+    msg += `Makkah Medical\n`;
+    msg += `------------------\n\n`;
+    msg += `طلب جديد من الموقع:\n`;
+    msg += `👤 الاسم: ${name}\n`;
+    msg += `📱 الموبايل: ${phone}\n`;
+    msg += `🏙️ المدينة: ${city}\n`; 
+    msg += `📍 العنوان: ${address}\n\n`;
+    msg += `------------------\n`;
+    msg += `الطلبات:\n`;
+
+    cart.forEach(i => {
+        msg += `- ${i.name}\n   العدد: ${i.qty}\n   السعر: ${i.price}\n   الرابط: ${i.images[0]}\n\n`;
+    });
+
+    msg += `💰 الإجمالي: ${document.getElementById('cart-total').innerText}\n`;
+
+    const url = `https://m.me/61586511999035?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+    cart = [];
+    updateCartBadge();
+    renderCart();
+    document.getElementById('cart-modal').style.display='none'; 
+    showToast('تم إرسال الطلب عبر الماسنجر بنجاح! 📩');
+};
+
+document.getElementById('cart-btn').onclick = () => { renderCart(); document.getElementById('cart-modal').style.display='block'; };
+document.querySelector('.close-cart-btn').onclick = () => { document.getElementById('cart-modal').style.display='none'; };
+
+
+function showToast(message) {
+    const box = document.getElementById('toast-box');
+    const toast = document.createElement('div');
+    toast.classList.add('toast');
+    
+    toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${message}`;
+    
+    box.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 4000);
+}
 initTheme();
 loadData();
