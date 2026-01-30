@@ -294,8 +294,10 @@ window.addToCart = (id) => {
     }
     
     updateCartBadge();
-
     showToast('تمت الإضافة للعربة بنجاح'); 
+    
+    document.getElementById('product-modal').style.display = 'none';
+    document.body.style.overflow = 'auto'; 
 };
 function renderCart() {
     const container = document.getElementById('cart-items-container');
@@ -328,7 +330,7 @@ window.removeItem = (index) => {
     updateCartBadge(); renderCart();
 };
 
-document.getElementById('checkout-messenger').onclick = () => {
+document.getElementById('checkout-whatsapp').onclick = () => {
     const name = document.getElementById('cust-name').value.trim();
     const phone = document.getElementById('cust-phone').value.trim();
     const city = document.getElementById('cust-city').value.trim(); 
@@ -362,13 +364,24 @@ document.getElementById('checkout-messenger').onclick = () => {
 
     msg += `💰 الإجمالي: ${document.getElementById('cart-total').innerText}\n`;
 
-    const url = `https://m.me/61586511999035?text=${encodeURIComponent(msg)}`;
+    // const url = `https://m.me/61586511999035?text=${encodeURIComponent(msg)}`;
+    // const url = `https://www.messenger.com/t/961830583672537/?text=${encodeURIComponent(msg)}`;
+    // const pageId = "61586511999035"; 
+    // const url = `https://m.me/${pageId}?text=${encodeURIComponent(msg)}`;
+    const whatsappUrl = `https://wa.me/201556381767?text=${encodeURIComponent(msg)}`;
+    window.open(whatsappUrl);
+    
+    // const pageId = "61586511999035"; // معرف صفحتك الثابت للماسنجر
+    // const url = `https://m.me/${pageId}?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
     cart = [];
     updateCartBadge();
     renderCart();
     document.getElementById('cart-modal').style.display='none'; 
-    showToast('تم إرسال الطلب عبر الماسنجر بنجاح! 📩');
+    showToast('تم إرسال الطلب عبر الواتس اب بنجاح! 📩');
+
+
+
 };
 
 document.getElementById('cart-btn').onclick = () => { renderCart(); document.getElementById('cart-modal').style.display='block'; };
@@ -386,7 +399,7 @@ function showToast(message) {
 
     setTimeout(() => {
         toast.remove();
-    }, 4000);
+    }, 3000);
 }
 initTheme();
 loadData();
