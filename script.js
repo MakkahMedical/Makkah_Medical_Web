@@ -84,10 +84,22 @@ function displayProducts(items) {
 }
 
 function getCategoryName(cat) {
-    const names = { 'devices': 'أجهزة طبية', 'supplies': 'مستلزمات', 'masks': 'وقاية' };
+    const names = { 'devices': 'أجهزة طبية', 'supports': 'أربطة', 'crutch': 'عكاكيز', 'chairs': 'كراسي طبية', 'pillows': 'وسائد طبية', 'Batteries': 'بطاريات', 'Travel': 'مستلزمات سفر', 'supplies': 'مستلزمات طبية', 'protection': 'وقاية', 'diapers': 'حفاضات و مفارش' };
     return names[cat] || cat;
 }
 
+//              <button class="filter-btn active" data-category="all">الكل</button>
+//             <button class="filter-btn" data-category="devices">أجهزة </button>
+//             <button class="filter-btn" data-category="supports">أربطة</button>
+//             <button class="filter-btn" data-category="crutch">عكاكيز</button>
+//             <button class="filter-btn" data-category="chairs">كراسي طبية</button>
+//             <button class="filter-btn" data-category="pillows">وسائد طبية</button>
+//             <button class="filter-btn" data-category="Batteries"> بطاريات</button>
+//             <button class="filter-btn" data-category="Travel"> مستلزمات سفر</button>
+//             <button class="filter-btn" data-category="supplies">مستلزمات طبية</button>
+//             <button class="filter-btn" data-category="protection">وقاية</button>
+//             <button class="filter-btn" data-category="diapers">حفاضات و مفارش</button>
+ 
 function openModal(id) {
     const product = allProducts.find(p => p.id == id);
     if (!product) return;
